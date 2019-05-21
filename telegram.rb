@@ -1,7 +1,10 @@
 require 'telegram/bot'
 require_relative "relevant_feedback"
+require 'active_support/all'
 
-token = '856845861:AAHNdiViupP9cczxYA-hpNiRGaqdp0HJabA'
+@config = YAML.load(File.open("./config.yml"))
+
+token = @config["telegram"]["token"]
 
 Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|

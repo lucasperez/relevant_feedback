@@ -1,8 +1,10 @@
 require 'google_custom_search_api'
 require 'terminal-table'
+require 'active_support/all'
 
-GOOGLE_API_KEY = "AIzaSyBHYSadPQFIbnbgpH0r3NJpDWdARepCzS4"
-GOOGLE_SEARCH_CX = "014062119054397272337:4u6z3mq1eoa"
+@config = YAML.load(File.open("./config.yml"))
+GOOGLE_API_KEY = @config["google"]["api_key"]
+GOOGLE_SEARCH_CX = @config["google"]["search_cx"]
 
 class RelevantFeedback
 
@@ -19,6 +21,7 @@ class RelevantFeedback
   private
 
   def search_depth(query_string, elements_number)
+
     results = GoogleCustomSearchApi.search(query_string, language: "Portuguese")
     if @search_numbers < elements_number
       @search_numbers = @search_numbers + 1

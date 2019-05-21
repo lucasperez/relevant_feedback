@@ -1,0 +1,5 @@
+google:
+  api_key: "xxxxxxxx"
+  search_cx: "xxxxxxxx"
+telegram:
+  token: "xxxxxxxx"
