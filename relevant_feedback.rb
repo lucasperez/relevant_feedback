@@ -22,14 +22,16 @@ class RelevantFeedback
 
   def search_depth(query_string, elements_number)
 
-    results = GoogleCustomSearchApi.search(query_string, language: "Portuguese")
+    results = GoogleCustomSearchApi.search(query_string)
     if @search_numbers < elements_number
       @search_numbers = @search_numbers + 1
       results["items"].first(elements_number).each do |item|
-        @responses << item
+        if !@responses.any? {|r| r[:link] == item["link"] }
+          @responses << {title: item["title"], link: item["link"]}
+        end
       end    
       @responses.each do |response|
-        search_depth(response["title"], elements_number)
+        search_depth(response[:title], elements_number)
       end
     end
   end

@@ -13,7 +13,7 @@ Telegram::Bot::Client.run(token) do |bot|
       response = RelevantFeedback.new.search(term, 3)
       text = ""
       response.each do |item|
-        text = text + "<b>Título: </b> #{item['title']} - <b>Link: </b> #{item['link']}\n"
+        text = text + "<b>Título: </b> #{item[:title]} - <b>Link: </b> #{item[:link]}\n"
         text = text + "\n\n"
       end
       text = text + "O que achou do nosso algoritmo? Responda nossa pesquisa : )\n\n"
