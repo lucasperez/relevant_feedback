@@ -10,6 +10,7 @@ Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
     if (message.text.match(/google+ (.*)/))
       term = message.text.match(/google+ (.*)/).captures
+      bot.api.send_message(chat_id: message.chat.id, text: "Ok. Aguarde que vamos busar por #{term}...", parse_mode: "html")
       response = RelevantFeedback.new.search(term, 3)
       text = ""
       response.each do |item|

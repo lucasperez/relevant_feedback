@@ -14,6 +14,8 @@ class RelevantFeedback
   end
 
   def search(query_string, elements_per_search)
+    puts "vou começar a buscaa...."
+    puts "------------------------------------------"
     search_depth(query_string, elements_per_search)
     return @responses
   end
