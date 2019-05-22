@@ -13,25 +13,30 @@ class RelevantFeedback
     @search_numbers = 0
   end
 
-  def search(query_string, elements_number)
-    search_depth(query_string, elements_number)
+  def search(query_string, elements_per_search)
+    search_depth(query_string, elements_per_search)
     return @responses
   end
   
   private
 
-  def search_depth(query_string, elements_number)
+  def search_depth(query_string, elements_per_search)
 
-    results = GoogleCustomSearchApi.search(query_string)
-    if @search_numbers < elements_number
+    results = GoogleCustomSearchApi.search(query_string, lr: "lang_pt")
+    
+    if @search_numbers < elements_per_search
       @search_numbers = @search_numbers + 1
-      results["items"].first(elements_number).each do |item|
+      
+      results["items"].each_with_index do |item, index|        
+        if @responses.any? {|r| r[:link] == item["link"] } and index == elements_per_search
+          break
+        end
         if !@responses.any? {|r| r[:link] == item["link"] }
           @responses << {title: item["title"], link: item["link"]}
         end
-      end    
+      end
       @responses.each do |response|
-        search_depth(response[:title], elements_number)
+        search_depth(response[:title], elements_per_search)
       end
     end
   end
